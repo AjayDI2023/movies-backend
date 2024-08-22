@@ -82,7 +82,12 @@ export class MovieController extends HttpStatus {
                 return this.sendBadRequestResponse(res, "Invalid publishing year.");
             }
 
-            const existingMovie = await Movie.findOne({ where: { title } });
+            const existingMovie = await Movie.findOne({ 
+                where: { 
+                    title,
+                    user_id: userId 
+                }
+            });
             if (existingMovie) return this.sendBadRequestResponse(res, "Movie exists with same title.");
 
             if (!req.file) return this.sendBadRequestResponse(res, "Image upload is mandatory.");
@@ -118,7 +123,7 @@ export class MovieController extends HttpStatus {
             if (!movie) return this.sendBadRequestResponse(res, "Movie not found.");
             if (title) {
                 const existingMovie = await Movie.findOne({
-                    where: { title, id: { [Op.ne]: id } }
+                    where: { title, id: { [Op.ne]: id }, user_id: userId, is_deleted: false }
                 });
                 if (existingMovie) return this.sendBadRequestResponse(res, "Movie exists with the same title.");
             }
