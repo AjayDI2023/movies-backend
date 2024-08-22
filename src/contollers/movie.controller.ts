@@ -90,7 +90,7 @@ export class MovieController extends HttpStatus {
             });
             if (existingMovie) return this.sendBadRequestResponse(res, "Movie exists with same title.");
 
-            if (!req.file) return this.sendBadRequestResponse(res, "Image upload is mandatory.");
+            if (!req.file) return this.sendBadRequestResponse(res, "Image is required.");
 
             const file = req.file;
             const mediaObj = {
